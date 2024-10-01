@@ -7,6 +7,10 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -29,28 +33,41 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            Fateats2Theme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
-                        modifier = Modifier.padding(innerPadding)
-                    )
-                    var text by remember { mutableStateOf("Default")}
-                    SearchTextField(searchText = text, onSearchChange = {
-                        newText -> text = newText
-                        Log.i("HomeScreen", "HomeScreen: TextField: $newText")
-                        Log.i("HomeScreen", "HomeScreen: state: $text")
-                    })
-                ProductSection(title = "Promoções", products = sampleCandies
+            App()
+        }
+    }
 
-                    )
-                    CardProductItem(product = Product(
+    @Composable
+    private fun App() {
+        Fateats2Theme {
+            Scaffold(modifier = Modifier.fillMaxSize(),
+                    floatingActionButton = { FloatingActionButton(onClick = { onFabClick }) {
+                        Icon(imageVector = Icons.Default.Add,
+                            contentDescription = null)
+                    }}
+                ) { innerPadding ->
+                Greeting(
+                    name = "Android",
+                    modifier = Modifier.padding(innerPadding)
+                )
+                var text by remember { mutableStateOf("Default") }
+                SearchTextField(searchText = text, onSearchChange = { newText ->
+                    text = newText
+                    Log.i("HomeScreen", "HomeScreen: TextField: $newText")
+                    Log.i("HomeScreen", "HomeScreen: state: $text")
+                })
+                ProductSection(
+                    title = "Promoções", products = sampleCandies
+
+                )
+                CardProductItem(
+                    product = Product(
                         name = "Comidinha",
                         price = BigDecimal("2.00")
-                    ))
-                }
-
+                    )
+                )
             }
+
         }
     }
 }
@@ -63,10 +80,15 @@ fun Greeting(name: String, modifier: Modifier = Modifier) {
     )
 }
 
-@Preview(showBackground = true)
+@Preview(showSystemUi = true)
 @Composable
-fun GreetingPreview() {
+fun HomeScreenPreview() {
     Fateats2Theme {
-        Greeting("Android")
+        HomeScreen(sampleCandies)
     }
+}
+
+@Composable
+fun HomeScreen(sampleSections: Any) {
+
 }
